@@ -68,10 +68,11 @@ self.addEventListener('fetch', function(e) {
 
 							cache.put(e.request, response);
 							console.log('[ServiceWorker] New Data Cached', e.request.url);
+							return response.clone();
 				
 				        });
 
-				        return response.clone();
+				        
 
 					})
 					.catch(function(err) {
