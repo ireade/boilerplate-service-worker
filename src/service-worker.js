@@ -2,17 +2,19 @@ var cacheName = 'v1';
 var cacheFiles = [
 	'./',
 	'./index.html',
-	'./app.js',
+	'./js/app.js',
 	'./css/reset.css',
-	'./css/style.css'
+	'./css/style.css',
+	'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic'
 ]
 
 self.addEventListener('install', function(e) {
     console.log('[ServiceWorker] Installed');
 
+    // Delays the event until the Promise is resolved
     e.waitUntil(
 	    caches.open(cacheName).then(function(cache) {
-			console.log('[ServiceWorker] Cached cacheFiles');
+			console.log('[ServiceWorker] Caching cacheFiles');
 			return cache.addAll(cacheFiles);
 	    })
 	);
@@ -21,28 +23,48 @@ self.addEventListener('install', function(e) {
 
 self.addEventListener('activate', function(e) {
     console.log('[ServiceWorker] Activated');
+
+    e.waitUntil(
+		caches.keys().then(function(keys) {
+			return Promise.all(keys.map(function(key) {
+
+				console.log('[ServiceWorker] Removing old cache', key);
+
+				if (key !== cacheName) {
+					return caches.delete(key);
+				}
+			}));
+		})
+	);
+
 });
 
 
 self.addEventListener('fetch', function(e) {
 	console.log('[ServiceWorker] Fetch', e.request.url);
 
-
+	// Respond to the fetch event
 	e.respondWith(
+
+		// Check in cache for the request being made
 		caches.match(e.request)
 
+			// If found in cache
 			.then(function(response) {
 				console.log("[ServiceWorker] Found in Cache", e.request.url);
 				return response;
 			})
 
+			// If not in cache
 			.catch(function() {
 
+				// Fetch the request
 				return fetch(e.request)
 
+					// Then cache it 
 					.then(function(response) {
 
-						// Cache data 
+						//  Cache data 
 						return caches.open(cacheName).then(function(cache) {
 
 							cache.put(e.request, response.clone());
