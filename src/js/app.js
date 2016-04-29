@@ -40,7 +40,7 @@ var fetchData = function(url) {
 
 
 
-
+var apiKey = "fWfSMcDzyHfMuH3BW6jiIUBYaj3hKRyKBRTBqgEQ";
 
 fetchData('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key='+apiKey)
   .then(function(response) {
