@@ -64,21 +64,20 @@ self.addEventListener('fetch', function(e) {
 					.then(function(response) {
 
 						//  Cache data 
-						return caches.open(cacheName).then(function(cache) {
+						caches.open(cacheName).then(function(cache) {
 
-							cache.put(e.request, response.clone());
+							cache.put(e.request, response);
 							console.log('[ServiceWorker] New Data Cached', e.request.url);
-							return response;
-
+				
 				        });
+
+				        return response.clone();
 
 					})
 					.catch(function(err) {
 						console.log('[ServiceWorker] Error Caching New Data', err);
 					});
 
-
-				
 
 			})
 
