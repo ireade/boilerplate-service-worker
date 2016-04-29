@@ -1,10 +1,10 @@
 var cacheName = 'v1';
 var cacheFiles = [
-	'/src/',
-	'/src/index.html',
-	'/src/app.js',
-	'/src/css/reset.css',
-	'/src/css/style.css'
+	'./',
+	'./index.html',
+	'./app.js',
+	'./css/reset.css',
+	'./css/style.css'
 ]
 
 self.addEventListener('install', function(e) {
