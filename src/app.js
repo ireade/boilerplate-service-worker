@@ -3,7 +3,7 @@
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('./service-worker.js', {
-      scope: '/src/'
+      scope: './'
     })
     .then(function(registration) { 
       console.log('Service Worker Installed'); 
