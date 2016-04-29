@@ -42,16 +42,16 @@ var fetchData = function(url) {
 
 var apiKey = "fWfSMcDzyHfMuH3BW6jiIUBYaj3hKRyKBRTBqgEQ";
 
-fetchData('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key='+apiKey)
+fetchData('https://api.nasa.gov/planetary/apod?api_key='+apiKey)
   .then(function(response) {
     console.log("Success", response)
 
     response = JSON.parse(response);
 
-    var r = Math.floor( Math.random() * response.photos.length );
-    var imageURL = response.photos[r].img_src;
+    document.getElementsByClassName('targetTitle')[0].innerHTML = response.title
+    document.getElementsByClassName('targetExplanation')[0].innerHTML = response.explanation
+    document.getElementsByClassName('targetImage')[0].src = response.url
 
-    document.getElementsByClassName('targetImage')[0].src = imageURL
 
   })
   .catch(function(err) {
