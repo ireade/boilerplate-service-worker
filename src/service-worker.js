@@ -51,12 +51,11 @@ self.addEventListener('fetch', function(e) {
 
 			// If found in cache
 			.then(function(response) {
-				console.log("[ServiceWorker] Found in Cache", e.request.url, response);
-				return response;
-			})
 
-			// If not in cache
-			.catch(function() {
+				if ( response ) {
+					console.log("[ServiceWorker] Found in Cache", e.request.url, response);
+					return response;
+				}
 
 				// Fetch the request
 				fetch(e.request)
@@ -77,6 +76,16 @@ self.addEventListener('fetch', function(e) {
 					.catch(function(err) {
 						console.log('[ServiceWorker] Error Caching New Data', err);
 					});
+
+
+				
+
+			})
+
+			// If not in cache
+			.catch(function() {
+				console.log("catch")
+				
 			})
 	);
 
