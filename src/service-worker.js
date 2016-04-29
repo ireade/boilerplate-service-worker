@@ -1,4 +1,4 @@
-var cacheName = 'v1';
+var cacheName = 'v2';
 var cacheFiles = [
 	'./',
 	'./index.html',
@@ -59,9 +59,9 @@ self.addEventListener('fetch', function(e) {
 			.catch(function() {
 
 				// Fetch the request
-				return fetch(e.request)
+				fetch(e.request)
 
-					// Then cache it 
+					//Then cache it 
 					.then(function(response) {
 
 						//  Cache data 
