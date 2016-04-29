@@ -49,7 +49,7 @@ self.addEventListener('fetch', function(e) {
 		// Check in cache for the request being made
 		caches.match(e.request)
 
-			// If found in cache
+
 			.then(function(response) {
 
 				if ( response ) {
