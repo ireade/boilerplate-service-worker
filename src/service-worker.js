@@ -51,7 +51,7 @@ self.addEventListener('fetch', function(e) {
 
 			// If found in cache
 			.then(function(response) {
-				console.log("[ServiceWorker] Found in Cache", e.request.url);
+				console.log("[ServiceWorker] Found in Cache", e.request.url, response);
 				return response;
 			})
 
