@@ -31,6 +31,14 @@ p {
 	margin-bottom: 15px;
 }
 
+img {
+    width: 100%;
+}
+
+img[src=""] {
+    display: none;
+}
+
 code,
 pre {
 	font-family: 'Source Code Pro', monospace;
