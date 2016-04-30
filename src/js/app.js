@@ -1,12 +1,10 @@
 
-
+// Setup Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register('./service-worker.js', {
-      scope: './'
-    })
+    .register('./service-worker.js', { scope: './' })
     .then(function(registration) { 
-      console.log('Service Worker Installed'); 
+      console.log('Service Worker Registered :)'); 
     })
     .catch(function(err) {
       console.log('Service Worker Failed to Register :(', err); 
@@ -14,9 +12,8 @@ if ('serviceWorker' in navigator) {
 }
 
 
-
-var fetchData = function(url) {
-
+// Function to perform HTTP request
+var get = function(url) {
   return new Promise(function(resolve, reject) {
 
     var xhr = new XMLHttpRequest();
@@ -24,6 +21,7 @@ var fetchData = function(url) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var result = xhr.responseText
+                result = JSON.parse(result);
                 resolve(result);
             } else {
                 reject(xhr);
@@ -33,30 +31,14 @@ var fetchData = function(url) {
     xhr.open("GET", url, true);
     xhr.send();
 
-  });
-    
+  }); 
 };
 
-
-
-
-var apiKey = "fWfSMcDzyHfMuH3BW6jiIUBYaj3hKRyKBRTBqgEQ";
-
-fetchData('https://api.nasa.gov/planetary/earth/imagery?api_key='+apiKey)
+get('https://api.nasa.gov/planetary/earth/imagery?api_key=fWfSMcDzyHfMuH3BW6jiIUBYaj3hKRyKBRTBqgEQ')
   .then(function(response) {
-    console.log("Success", response)
-
-    response = JSON.parse(response);
-
-    document.getElementsByClassName('targetImage')[0].src = response.url
-
-
+    console.log("Success", response);
+    document.getElementsByClassName('targetImage')[0].src = response.url;
   })
   .catch(function(err) {
-    console.log("Error", err)
+    console.log("Error", err);
   })
-
-
-
-
-

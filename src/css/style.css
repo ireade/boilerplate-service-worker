@@ -11,14 +11,7 @@ body {
 
 h1 {
     font-size: 3rem;
-}
-
-h2 {
-    font-size: 2.5rem;
-}
-
-h3 {
-    font-size: 2rem;
+    margin-bottom: 30px;
 }
 
 a {
@@ -43,8 +36,6 @@ code,
 pre {
 	font-family: 'Source Code Pro', monospace;
 }
-
-
 
 .container {
 	width: 90%;
