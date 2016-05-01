@@ -1,6 +1,6 @@
 
 // Set a name for the current cache
-var cacheName = 'v4'; 
+var cacheName = 'v0'; 
 
 // Default files to always cache
 var cacheFiles = [
@@ -36,15 +36,15 @@ self.addEventListener('activate', function(e) {
     e.waitUntil(
 
     	// Get all the cache keys (cacheName)
-		caches.keys().then(function(keys) {
-			return Promise.all(keys.map(function(key) {
+		caches.keys().then(function(cacheNames) {
+			return Promise.all(cacheNames.map(function(thisCacheName) {
 
 				// If a cached item is saved under a previous cacheName
-				if (key !== cacheName) {
+				if (thisCacheName !== cacheName) {
 
 					// Delete that cached file
-					console.log('[ServiceWorker] Removing Cached Files from Cache - ', key);
-					return caches.delete(key);
+					console.log('[ServiceWorker] Removing Cached Files from Cache - ', thisCacheName);
+					return caches.delete(thisCacheName);
 				}
 			}));
 		})
@@ -73,19 +73,22 @@ self.addEventListener('fetch', function(e) {
 					return response;
 				}
 
-				// If not, fetch the request
-				fetch(e.request)
 
+				// IMPORTANT: Clone the response. A response is a stream
+	            // and because we want the browser to consume the response
+	            // as well as the cache consuming the response, we need
+	            // to clone it so we have 2 streams.
+				var requestClone = e.request.clone();
+
+				// If not, fetch the request
+				fetch(requestClone)
 					.then(function(response) {
 
 						if ( !response ) {
+							console.log("[ServiceWorker] No response from fetch ")
 							return response;
 						}
 
-						// IMPORTANT: Clone the response. A response is a stream
-			            // and because we want the browser to consume the response
-			            // as well as the cache consuming the response, we need
-			            // to clone it so we have 2 streams.
 						var responseClone = response.clone();
 
 						//  Open the cache
