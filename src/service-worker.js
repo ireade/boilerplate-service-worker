@@ -1,6 +1,5 @@
-
 // Set a name for the current cache
-var cacheName = 'v0'; 
+var cacheName = 'v1'; 
 
 // Default files to always cache
 var cacheFiles = [
@@ -67,20 +66,14 @@ self.addEventListener('fetch', function(e) {
 
 				// If the request is in the cache
 				if ( response ) {
-
-					// Return the cached version
 					console.log("[ServiceWorker] Found in Cache", e.request.url, response);
+					// Return the cached version
 					return response;
 				}
 
+				// If the request is NOT in the cache, fetch and cache
 
-				// IMPORTANT: Clone the response. A response is a stream
-	            // and because we want the browser to consume the response
-	            // as well as the cache consuming the response, we need
-	            // to clone it so we have 2 streams.
 				var requestClone = e.request.clone();
-
-				// If not, fetch the request
 				fetch(requestClone)
 					.then(function(response) {
 
@@ -100,7 +93,7 @@ self.addEventListener('fetch', function(e) {
 
 							// Return the response
 							return response;
-				
+			
 				        }); // end caches.open
 
 					})
@@ -110,7 +103,5 @@ self.addEventListener('fetch', function(e) {
 
 
 			}) // end caches.match(e.request)
-
 	); // end e.respondWith
-
 });
