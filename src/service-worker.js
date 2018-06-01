@@ -74,7 +74,7 @@ self.addEventListener('fetch', function(e) {
 				// If the request is NOT in the cache, fetch and cache
 
 				var requestClone = e.request.clone();
-				fetch(requestClone)
+				return fetch(requestClone)
 					.then(function(response) {
 
 						if ( !response ) {
